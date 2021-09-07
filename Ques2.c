@@ -4,8 +4,8 @@
 struct queue
 {
     int size;
-    int f;
-    int r;
+    int f;  //front
+    int r;  //rear
     int *arr;
 };
 
