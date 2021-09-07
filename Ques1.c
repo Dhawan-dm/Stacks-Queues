@@ -1,77 +1,94 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-struct node
+struct stack
 {
-    int data;
-    struct node *next;
+    int size;
+    int top;
+    int *arr;
 };
 
-struct node *t = NULL;
-
-void push(int n)
+int isFull(struct stack *s)
 {
-    struct node *ptr = malloc(sizeof(struct node));
-    ptr->data = n;
-    ptr->next = t;
-    t = ptr;
-}
-void pop()
-{
-    if (t == NULL)
+    if(s->top == s->size-1)
     {
-        printf("\n\nStack is empty ");
+        return 1;
+    }
+    return 0;
+}
+int isEmpty(struct stack *s)
+{
+    if(s->top == -1)
+    {
+        return 1;
+
+    }
+    return 0;
+}
+
+void push(struct stack *s ,int val)
+{
+    if(isFull(s))
+    {
+        printf("stack Overflow");
+
+    }
+    else{
+        s->top++;
+        s->arr[s->top] = val;
+    }
+}
+int pop (struct stack *s)
+{
+    if(isEmpty(s))
+    {
+        printf("stack UnderFlow");
+    }
+    else{
+        int val = s->arr[s->top];
+        s->top --;
+        printf("Element removed from the stack is : ");
+        return val;
+    }
+}
+int peek(struct stack *s)
+{
+    if(isEmpty(s))
+    {
+        printf("stack UnderFlow");
+
     }
     else
     {
-        struct node *temp;
-        temp = t;
-        t = t->next;
-        printf("\n\n%d deleted", temp->data);
-        free(temp);
-    }
-}
-void peek()
-{
-    struct node *temp;
-    temp = t;
-    while (temp != NULL)
-    {
-        printf("\n%d", temp->data);
-        temp = temp->next;
+        return s->arr[s->top];
     }
 }
 
 int main()
 {
-    int n, x;
-    while (x != 0)
-    {	
-	printf("Enter 1 to push\nEnter 2 to pop\nEnter 3 to peek\n");    
-        scanf("%d", &x);
-        
-        switch (x)
-        {
-            case 1:
-                printf("\nEnter number "); //enter number that is needed to be pushed
-                scanf("%d", &n);
-                push(n);
-                break;
-            case 2:      //to delete
-                pop();
-                printf("\nPopped\n ");
-                break;
-            case 3:      // to display the list
-                printf("\nAll elements\n ");
-                peek(); 
-		printf("\n");
-                break;
-        }
+    int n;
+    scanf("%d",&n);
+
+    struct stack *s = (struct stack *)malloc(sizeof(struct stack));
+    
+
+    s->size = n;
+    s->top = -1;
+    s->arr = (int*)malloc(s->size*(sizeof(int)));
+
+     int val;
+    for (int i = 0; i < s->size; i++)
+    {
+       
+        scanf("%d",&val);
+        push(s,val);
     }
+    
+
+    
+
+    printf("%d\n",pop(s));
+    printf("%d",peek(s));
+
+
 }
-
-
-
-
-
-
