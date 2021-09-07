@@ -1,104 +1,86 @@
-#include <stdio.h>
+#include<stdio.h>
 #include<stdlib.h>
-#define MAX 50
 
-int end = - 1;
-int start = - 1;
-int a[MAX];
-
-void insert()
+struct queue
 {
-    int elem;
-    
-    if(end == MAX - 1)
-        printf("Queue Overflow \n");
-        
-    else
+    int size;
+    int f;
+    int r;
+    int *arr;
+};
+
+int isFull(struct queue *q){
+
+    if(q->r == q->size -1)
     {
-        if(start== - 1)
-            start = 0;
-            
-        printf("Enter element: ");
-        scanf("%d", &elem);
-        
-        end = end + 1;
-        
-        a[end] = elem;
+        return 1;
     }
+    return 0;
 }
-void delete()
-{
-    if(start == - 1 || start > end)
-    {
-        printf("Queue Underflow \n");
-        
-        return;
-    }
-    else
-    {
-        printf("Deleted element : %d\n", a[end]);
-        
-        start = start + 1;
-    }
-}
-void display()
-{
-    int i;
-    
-    if(start == - 1)
-        printf("Queue is empty \n");
-        
-    else
-    {
-        printf("Queue is : \n");
-        
-        for(i = start; i <= end; i++)
-        {
-            printf("%d ", a[i]);
-        
-        }    
+int isEmpty(struct queue *q){
 
-    printf("\n");
-        
+    if(q->r == q->f)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+void enqueue (struct queue *q , int val)
+{
+    if(isFull(q))
+    {
+        printf("Queue is full");
+    }
+    else
+    {
+        q->r++;
+        q->arr[q->r] = val;
+
     }
 }
 
+int dequeue (struct queue *q )
+{
+    if(isEmpty(q))
+    {
+        printf("Queue is empty");
+    }
+    else
+    {   
+        q->f++;
+        printf("Element Dequeued ");
+        return q->arr[q->f];
+    }
 
-
+}
+int peek(struct queue *q)
+{
+    if(isFull(q) ||isEmpty(q))
+    {
+        printf("Invalid");
+    }
+    return q->arr[q->r];
+}
 
 int main()
-{   
+{
     
-    int x;
-    while (1)
-    {
-        printf("1.Insert element to queue \n");
-        
-        printf("2.Delete element from queue \n");
-        printf("3.Display all elements of queue \n");
-        
-        printf("4.Quit \n");
 
-        scanf("%d", &x);
-        switch(x)
-        {
-                case 1:
-                insert();
-                break;
-                
-                case 2:
-                delete();
-                break;
-                
-                case 3:
-                display();
-                break;
-                
-                case 4:
-                exit(1);
-                default:
-            
-            printf("Wrong choice \n");
-        }
-    }
+    struct queue *q;
+
+    q->size = 100;
+    q->f = q->r = -1;
+    q->arr = (int*)malloc(q->size*(sizeof(int)));
+
+ 
+
+    enqueue(q,100);
+    enqueue(q,40);
+    enqueue(q,12);
+    enqueue(q,1);
+
+    printf("Element : %d\n",dequeue(q));
+
+    printf("Head : %d",peek(q));
 }
